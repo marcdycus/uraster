@@ -1,0 +1,98 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <script
+  src="https://code.jquery.com/jquery-3.4.1.min.js"
+  integrity="sha256-CSXorXvZcTkaix6Yvo6HppcZGetbYMGWSFlBw8HfCJo="
+  crossorigin="anonymous"></script>
+    <title>Giffy button</title>
+</head>
+
+<body>
+    <div id="buttons"></div>
+
+    <div id="searchContainer">
+        <h2>Add an animal</h2>
+        <input type="text" id="animalSearch">
+        <button id="addCategory">Search!</button>
+    </div>
+
+    <div id="gifContainer"></div>
+
+
+    <script type="text/javascript">
+
+        $(document).ready(function () {
+
+            var animalButton = [];
+
+            function displayGifs() {
+                
+                var kind = $(this).attr("data-name");
+
+                var queryURL = "https://api.giphy.com/v1/gifs/search?q=" + kind + "&api_key=BkaUZZWcFij6J7AoQj3WtPb1R2p9O6V9&limit=10";
+                
+                $.ajax({
+                  url: queryURL,
+                  method: "GET"
+                }).then(function(response) {
+                    
+                    var results = response.data;
+
+                    for (var i = 0; i < results.length; i++) {
+
+                        var animalDiv = $("<div>");
+                        var p = $("<p>").text("Rating: " + results[i].rating);
+                        var animalImage = $("<img>");
+
+                        animalImage.attr("src", results[i].images.fixed_height.url);
+
+                        animalDiv.append(p);
+                        animalDiv.append(animalImage);
+
+                        $("#gifContainer").prepend(animalDiv);
+                        
+                    }console.log(results)
+                }); 
+            
+            }
+            
+
+            function renderButtons() {
+
+                $("#buttons").empty();
+
+                for (var i = 0; i < animalButton.length; i++) {
+                    var a = $("<button>");
+                    a.addClass("animal-btn");
+                    a.attr("data-name", animalButton[i]);
+                    a.text(animalButton[i]);
+                    $("#buttons").append(a);
+                }
+            }
+
+            $("#addCategory").on("click", function() {
+                event.preventDefault();
+
+                var animal = $("#animalSearch").val().trim();
+
+                animalButton.push(animal);
+
+                renderButtons();
+            })
+
+            $(document).on("click", ".animal-btn", displayGifs);
+
+            renderButtons();
+
+        });
+
+    </script>
+
+</body>
+
+</html>
