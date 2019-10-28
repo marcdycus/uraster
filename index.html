@@ -16,9 +16,9 @@
     <div id="buttons"></div>
 
     <div id="searchContainer">
-        <h2>Add an animal</h2>
-        <input type="text" id="animalSearch">
-        <button id="addCategory">Search!</button>
+        <h2>Add a topic!</h2>
+        <input type="text" id="topicSearch">
+        <button id="addCategory">Search</button>
     </div>
 
     <div id="gifContainer"></div>
@@ -28,7 +28,7 @@
 
         $(document).ready(function () {
 
-            var animalButton = [];
+            var topic = [];
 
             function displayGifs() {
                 
@@ -45,18 +45,19 @@
 
                     for (var i = 0; i < results.length; i++) {
 
-                        var animalDiv = $("<div>");
+                        var topicDiv = $("<div>");
                         var p = $("<p>").text("Rating: " + results[i].rating);
-                        var animalImage = $("<img>");
+                        var topicImage = $("<img>");
+                        var movingType = $("")
 
-                        animalImage.attr("src", results[i].images.fixed_height.url);
+                        topicImage.attr("src", results[i].images.fixed_height.url);
 
-                        animalDiv.append(p);
-                        animalDiv.append(animalImage);
+                        topicDiv.append(p);
+                        topicDiv.append(topicImage);
 
-                        $("#gifContainer").prepend(animalDiv);
+                        $("#gifContainer").prepend(topicDiv);
                         
-                    }console.log(results)
+                    } console.log(results);
                 }); 
             
             }
@@ -66,11 +67,11 @@
 
                 $("#buttons").empty();
 
-                for (var i = 0; i < animalButton.length; i++) {
+                for (var i = 0; i < topic.length; i++) {
                     var a = $("<button>");
-                    a.addClass("animal-btn");
-                    a.attr("data-name", animalButton[i]);
-                    a.text(animalButton[i]);
+                    a.addClass("topic-btn");
+                    a.attr("data-name", topic[i]);
+                    a.text(topic[i]);
                     $("#buttons").append(a);
                 }
             }
@@ -78,14 +79,26 @@
             $("#addCategory").on("click", function() {
                 event.preventDefault();
 
-                var animal = $("#animalSearch").val().trim();
+                var theme = $("#topicSearch").val().trim();
 
-                animalButton.push(animal);
+                topic.push(theme);
 
                 renderButtons();
             })
 
-            $(document).on("click", ".animal-btn", displayGifs);
+            $(".gif").on("click", function() {
+                var state = $(this).attr("data-state");
+                if (state === "still") {
+                    $(this).attr("src", $(this).attr("data-animate"));
+                    $(this).attr("data-state", "animate");
+                } else {
+                    $(this).attr("src", $(this).attr("data-still"));
+                    $(this).attr("data-state", "still");
+                }
+            });
+
+
+            $(document).on("click", ".topic-btn", displayGifs);
 
             renderButtons();
 
