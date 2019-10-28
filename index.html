@@ -9,6 +9,7 @@
   src="https://code.jquery.com/jquery-3.4.1.min.js"
   integrity="sha256-CSXorXvZcTkaix6Yvo6HppcZGetbYMGWSFlBw8HfCJo="
   crossorigin="anonymous"></script>
+    <link rel="stylesheet" type="text/css" href="style/style.css">
     <title>Giffy button</title>
 </head>
 
@@ -16,7 +17,7 @@
     <div id="buttons"></div>
 
     <div id="searchContainer">
-        <h2>Add a topic!</h2>
+        <h2>Gif Search</h2>
         <input type="text" id="topicSearch">
         <button id="addCategory">Search</button>
     </div>
@@ -24,87 +25,7 @@
     <div id="gifContainer"></div>
 
 
-    <script type="text/javascript">
-
-        $(document).ready(function () {
-
-            var topic = [];
-
-            function displayGifs() {
-                
-                var kind = $(this).attr("data-name");
-
-                var queryURL = "https://api.giphy.com/v1/gifs/search?q=" + kind + "&api_key=BkaUZZWcFij6J7AoQj3WtPb1R2p9O6V9&limit=10";
-                
-                $.ajax({
-                  url: queryURL,
-                  method: "GET"
-                }).then(function(response) {
-                    
-                    var results = response.data;
-
-                    for (var i = 0; i < results.length; i++) {
-
-                        var topicDiv = $("<div>");
-                        var p = $("<p>").text("Rating: " + results[i].rating);
-                        var topicImage = $("<img>");
-                        var movingType = $("")
-
-                        topicImage.attr("src", results[i].images.fixed_height.url);
-
-                        topicDiv.append(p);
-                        topicDiv.append(topicImage);
-
-                        $("#gifContainer").prepend(topicDiv);
-                        
-                    } console.log(results);
-                }); 
-            
-            }
-            
-
-            function renderButtons() {
-
-                $("#buttons").empty();
-
-                for (var i = 0; i < topic.length; i++) {
-                    var a = $("<button>");
-                    a.addClass("topic-btn");
-                    a.attr("data-name", topic[i]);
-                    a.text(topic[i]);
-                    $("#buttons").append(a);
-                }
-            }
-
-            $("#addCategory").on("click", function() {
-                event.preventDefault();
-
-                var theme = $("#topicSearch").val().trim();
-
-                topic.push(theme);
-
-                renderButtons();
-            })
-
-            $(".gif").on("click", function() {
-                var state = $(this).attr("data-state");
-                if (state === "still") {
-                    $(this).attr("src", $(this).attr("data-animate"));
-                    $(this).attr("data-state", "animate");
-                } else {
-                    $(this).attr("src", $(this).attr("data-still"));
-                    $(this).attr("data-state", "still");
-                }
-            });
-
-
-            $(document).on("click", ".topic-btn", displayGifs);
-
-            renderButtons();
-
-        });
-
-    </script>
+    <script type="text/javascript" src="script/script.js"></script>
 
 </body>
 
