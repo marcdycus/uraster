@@ -51,6 +51,8 @@ $(document).ready(function () {
                 }
             }
 
+
+
             $("#addCategory").on("click", function() {
                 event.preventDefault();
 
@@ -61,8 +63,9 @@ $(document).ready(function () {
                 renderButtons();
             });
 
-            $(".gif").on("click", function() {
-                console.log("hello")
+            // is able to be used after page is loaded due to "page" (document) being called.
+            // does not work if ".gif" is being clicked
+            $(document).on("click", ".gif", function() {
                 var state = $(this).attr("data-state");
                 if (state === "still") {
                     $(this).attr("src", $(this).attr("data-animate"));

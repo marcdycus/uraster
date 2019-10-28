@@ -2,6 +2,7 @@ body {
     background-color: black;
     color: rgb(255, 255, 116);
     font-family: 'Courier New', Courier, monospace;
+    
 }
 
 h2 {
@@ -55,6 +56,11 @@ input {
 
 #buttons {
     display: inline;
+}
+
+.topic-btn:hover {
+    cursor: pointer;
+    background-color: rgb(165, 165, 165);
 }
 
 .eachGif {
